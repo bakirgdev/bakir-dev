@@ -26,6 +26,7 @@ export function CredentialCard({ credential, style }: CredentialCardProps) {
           src={credential.image}
           alt={credential.name}
           fill
+          sizes="100%"
           className="object-contain"
         />
       </div>

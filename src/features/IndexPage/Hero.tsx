@@ -10,6 +10,7 @@ export function Hero() {
             src={Headshot}
             alt="Headshot of Bakir"
             fill
+            sizes="100%"
             className="object-cover rounded-full"
             priority
           />
