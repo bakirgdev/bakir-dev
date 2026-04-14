@@ -6,7 +6,6 @@
 .pnp.*
 
 .dockerignore
-.env*
 .gitignore
 AGENTS.md
 compose.yaml

@@ -1,4 +1,5 @@
 import "@/css/global.css";
+import "@/types/env";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Footer from "@/features/Footer/Footer";
 import IntersectionObserver from "@/features/IntersectionObserver/IntersectionObserver";

@@ -25,7 +25,7 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: `${process.env.NEXT_PUBLIC_API_URL}/og.jpg`,
+        src: `${process.env.NEXT_PUBLIC_APP_URL}/og.jpg`,
         sizes: "1200x630",
         type: "image/png",
       },
