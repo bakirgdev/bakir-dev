@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "modules:update": "pnpx npm-check-updates -u --format group",
-    "install:clean": "pnpx rimraf node_modules/ pnpm-lock.yaml && pnpm install",
-    "tsc": "pnpx rimraf .next/ && tsc --noEmit && pnpx rimraf tsconfig.tsbuildinfo",
+    "install:clean": "rm -rf node_modules/ pnpm-lock.yaml; pnpm install",
+    "tsc": "rm -rf .next/; tsc --noEmit; rm -rf tsconfig.tsbuildinfo",
     "lint": "biome check --write",
     "dev": "next dev",
-    "dev:clean": "pnpx rimraf .next/ && next dev",
+    "dev:clean": "rm -rf .next/; next dev",
     "build": "next build",
-    "build:clean": "pnpx rimraf .next/ && next build",
+    "build:clean": "rm -rf .next/; next build",
     "start": "next start"
   },
   "dependencies": {
