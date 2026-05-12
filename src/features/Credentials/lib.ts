@@ -68,6 +68,15 @@ export const myCredentials: Credential[] = [
     tags: ["Anthropic"],
   },
   {
+    name: "Building with the Anthropic API",
+    description:
+      "Teaches developers how to integrate Claude AI into applications using the Anthropic API.",
+    image:
+      "/static/images/credentials/anthropic/building-with-the-anthropic-api.png",
+    verify: "https://verify.skilljar.com/c/z8bmfny2qvov",
+    tags: ["Anthropic"],
+  },
+  {
     name: "Introduction to Model Context Protocol",
     description:
       "Build MCP servers and clients in Python, using core primitives to connect Claude to services.",
