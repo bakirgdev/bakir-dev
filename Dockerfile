@@ -22,8 +22,9 @@ COPY . .
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN --mount=type=cache,target=/app/.next/cache \
-    corepack enable pnpm && pnpm build;
+RUN --mount=type=cache,target=/app/.next/cache;
+
+RUN corepack enable pnpm && pnpm build;
 
 
 FROM node:${NODE_VERSION} AS runner
