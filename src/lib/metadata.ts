@@ -1,44 +1,28 @@
 import type { Metadata } from "next";
 
-const defaultMetadataImage = `${process.env.NEXT_PUBLIC_APP_URL}/og.jpg`;
+export const defaultMetadataImage = `${process.env.NEXT_PUBLIC_APP_URL}/og.jpg`;
 
 export function pageMetadata(
   title: string,
   description: string,
   url: string,
-  imageUrl?: string,
-  indexable?: boolean,
 ): Metadata {
   return {
     ...baseMetadata,
-    title,
-    description,
+    title: title,
+    description: description,
     alternates: {
       canonical: url,
     },
     openGraph: {
       ...baseMetadata.openGraph,
-      title,
-      description,
-      url,
-      images: [
-        {
-          url: imageUrl || defaultMetadataImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      title: title,
+      description: description,
     },
     twitter: {
       ...baseMetadata.twitter,
-      title,
-      description,
-      images: [imageUrl || defaultMetadataImage],
-    },
-    robots: {
-      index: indexable !== false,
-      follow: indexable !== false,
+      title: title,
+      description: description,
     },
   };
 }
@@ -52,22 +36,9 @@ export const baseMetadata: Metadata = {
   authors: [{ name: "Bakir Gracić", url: process.env.NEXT_PUBLIC_APP_URL }],
   creator: "Bakir Gracić",
   publisher: "Bakir Gracić",
-  keywords: [
-    "Bakir Gracić",
-    "bakir",
-    "gracic",
-    "bakir.dev",
-    "blog",
-    "personal website",
-    "developer blog",
-    "software development",
-    "programming",
-    "technology",
-  ],
   alternates: {
     canonical: process.env.NEXT_PUBLIC_APP_URL,
   },
-  referrer: "origin-when-cross-origin",
   openGraph: {
     title: "bakir.dev",
     description:

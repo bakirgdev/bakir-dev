@@ -11,19 +11,20 @@ import { baseViewport } from "@/lib/viewport";
 export const metadata = baseMetadata;
 export const viewport = baseViewport;
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html
       lang="bs-Latn-BA"
-      className={`${publicSans.className} font-public-sans dark`}
+      className={`${publicSans.className} dark`}
       suppressHydrationWarning
     >
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
+
         <IntersectionObserver>
           <div className="container mx-auto px-4 min-h-dvh flex flex-col">
             <Navbar />

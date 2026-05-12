@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { defaultMetadataImage } from "@/lib/metadata";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -25,7 +26,7 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: `${process.env.NEXT_PUBLIC_APP_URL}/og.jpg`,
+        src: defaultMetadataImage,
         sizes: "1200x630",
         type: "image/png",
       },
