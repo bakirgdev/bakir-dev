@@ -21,6 +21,8 @@ export function CredentialsView() {
     <>
       <div className="flex flex-wrap gap-2 justify-center mb-10">
         <Badge
+          role="button"
+          aria-pressed={activeTag === null}
           variant={activeTag === null ? "default" : "outline"}
           className={cn(
             "cursor-pointer px-4 py-1 h-8 motion-preset-slide-down",
@@ -35,6 +37,8 @@ export function CredentialsView() {
         {allTags.map((tag, i) => (
           <Badge
             key={`credential-tag_${tag}`}
+            role="button"
+            aria-pressed={activeTag === tag}
             variant={activeTag === tag ? "default" : "outline"}
             className={cn(
               "cursor-pointer px-4 py-1 h-8 motion-preset-slide-down",

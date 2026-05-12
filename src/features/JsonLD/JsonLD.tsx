@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: <> */
+
 import type { Thing, WithContext } from "schema-dts";
 
 type JsonLdProps<T extends Thing> = {

@@ -23,7 +23,7 @@ export default function Footer() {
         <Link
           href="https://sanjacklee.digital"
           target="_blank"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer"
           className="hover:underline transition-all"
           prefetch={false}
         >

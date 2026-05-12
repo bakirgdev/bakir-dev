@@ -21,11 +21,11 @@ Personal website + blog for [bakir.dev](https://bakir.dev). Next.js 16 App Route
 
 ### Path aliases
 
-| Alias | Resolves to |
-|-------|-------------|
-| `@/*` | `./src/*` |
+| Alias | Resolves to  |
+| ----- | ------------ |
+| `@/*` | `./src/*`    |
 | `#/*` | `./public/*` |
-| `&/*` | `./BLOG/*` |
+| `&/*` | `./BLOG/*`   |
 
 ### Blog system
 
@@ -45,3 +45,13 @@ All `NEXT_PUBLIC_*` vars are validated at startup via Zod in `src/types/env.ts`.
 - `tailwindcss-intersect` drives scroll-triggered animations via `motion-preset-*` classes.
 - JSON-LD structured data (schema.org) is injected per-page via `<JsonLD>`.
 - `next.config.ts` sets `output: "standalone"` for Docker (deployed via Dokploy on port 3002).
+
+### Misc
+
+<!-- BEGIN:nextjs-agent-rules -->
+ 
+# Next.js: ALWAYS read docs before coding
+ 
+Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
+ 
+<!-- END:nextjs-agent-rules -->

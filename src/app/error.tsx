@@ -3,14 +3,7 @@
 import { Refresh01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Non200Pages from "@/features/Non200Pages/Non200Pages";
-import { pageMetadata } from "@/lib/metadata";
 import { Button } from "@/shadcn/components/ui/button";
-
-export const metadata = pageMetadata(
-  "Server Error (500)",
-  "There was an internal server error. Please try again later.",
-  "/",
-);
 
 export default function ErrorPage() {
   return (
