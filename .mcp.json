@@ -11,6 +11,10 @@
     "playwright": {
       "command": "pnpx",
       "args": ["@playwright/mcp@latest"]
+    },
+    "hugeicons": {
+      "command": "npx",
+      "args": ["-y", "@hugeicons/mcp-server"]
     }
   }
 }
