@@ -1,25 +1,24 @@
 .git/
-.vscode/
+LICENSES/
+.dockerignore
+.gitignore
+.mcp.json
+CLAUDE.md
+Dockerfile
+README.md
+
 
 /node_modules
 /.pnp
 .pnp.*
+.pnpm-debug.log*
 
-.dockerignore
-.gitignore
-AGENTS.md
-compose.yaml
-Dockerfile
-next-env.d.ts
-
-.next/
-out/
-
+/.next/
+/out/
 /build
 
 .DS_Store
 *.pem
 
-.pnpm-debug.log*
-
 *.tsbuildinfo
+next-env.d.ts

@@ -1,15 +1,15 @@
-# syntax=docker.io/docker/dockerfile:1
-
 ARG NODE_VERSION=24-slim
+
 
 FROM node:${NODE_VERSION} AS dependencies
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml* .npmrc* ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
     corepack enable pnpm && pnpm install --frozen-lockfile;
+
 
 FROM node:${NODE_VERSION} AS builder
 
@@ -24,6 +24,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN --mount=type=cache,target=/app/.next/cache \
     corepack enable pnpm && pnpm build;
+
 
 FROM node:${NODE_VERSION} AS runner
 
@@ -41,6 +42,7 @@ RUN chown node:node .next
 
 COPY --from=builder --chown=node:node /app/.next/standalone ./
 COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /app/.next/cache ./.next/cache
 
 USER node
 
