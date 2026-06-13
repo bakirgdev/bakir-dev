@@ -42,6 +42,14 @@ export const myCredentials: Credential[] = [
     tags: ["Anthropic"],
   },
   {
+    name: "Claude Platform 101",
+    description:
+      "Teaches developers to build on the Claude Developer Platform from the ground up.",
+    image: "/static/images/credentials/anthropic/claude-platform-101.png",
+    verify: "https://verify.skilljar.com/c/v9xkz7z35kzp",
+    tags: ["Anthropic"],
+  },
+  {
     name: "Introduction to Claude Cowork",
     description:
       "Work with Claude on real files, learn the Cowork loop, and steer multi-step work responsibly.",
@@ -150,6 +158,15 @@ export const myCredentials: Credential[] = [
     image:
       "/static/images/credentials/anthropic/ai-capabilities-and-limitations.png",
     verify: "https://verify.skilljar.com/c/hbfffkhj7qof",
+    tags: ["Anthropic"],
+  },
+  {
+    name: "AI Fluency for Small Businesses",
+    description:
+      "Helps small business staff build practical AI collaboration skills through the 4D Framework",
+    image:
+      "/static/images/credentials/anthropic/ai-fluency-for-small-businesses.png",
+    verify: "https://verify.skilljar.com/c/5zgm42m3o54q",
     tags: ["Anthropic"],
   },
   // AI HERO
