@@ -1,5 +1,6 @@
 export type CredentialTag =
   | "GitHub"
+  | "HubSpot"
   | "Anthropic"
   | "TotalTypescript"
   | "AI Hero"
@@ -23,6 +24,15 @@ export const myCredentials: Credential[] = [
     verify:
       "https://www.credly.com/badges/6e715e2b-cb75-4c1b-9a2f-aa4610e2c8fc",
     tags: ["GitHub"],
+  },
+  // HUBSPOT
+  {
+    name: "Digital Marketing",
+    description: "Knowledge and skills in applying digital marketing practices with an inbound mindset.",
+    image: "/static/images/credentials/hubspot/digital-marketing.png",
+    verify:
+      "https://app-eu1.hubspot.com/academy/achievements/h7mvzl5k/en/1/bakir-gracic/digital-marketing",
+    tags: ["HubSpot"],
   },
   // ANTHROPIC
   {
