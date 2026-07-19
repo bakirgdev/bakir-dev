@@ -2,6 +2,7 @@ export type CredentialTag =
   | "GitHub"
   | "HubSpot"
   | "Anthropic"
+  | "Anthropic (Partners)"
   | "TotalTypescript"
   | "AI Hero"
   | "Google Cloud";
@@ -28,11 +29,23 @@ export const myCredentials: Credential[] = [
   // HUBSPOT
   {
     name: "Digital Marketing",
-    description: "Knowledge and skills in applying digital marketing practices with an inbound mindset.",
+    description:
+      "Knowledge and skills in applying digital marketing practices with an inbound mindset.",
     image: "/static/images/credentials/hubspot/digital-marketing.png",
     verify:
       "https://app-eu1.hubspot.com/academy/achievements/h7mvzl5k/en/1/bakir-gracic/digital-marketing",
     tags: ["HubSpot"],
+  },
+  // ANTHROPIC PARTNERS
+  {
+    name: "Claude Partner Badge (Claude Code)",
+    description:
+      "Partner-exclusive badge showcasing skills in end-to-end governance of Claude Code for teams and enterprises",
+    image:
+      "/static/images/credentials/anthropic_partners/claude-partner-badge-claude-code.png",
+    verify:
+      "https://www.credly.com/badges/6cec1cf5-f8be-4bb0-999a-e1295e8fd5bc/public_url",
+    tags: ["Anthropic (Partners)"],
   },
   // ANTHROPIC
   {
