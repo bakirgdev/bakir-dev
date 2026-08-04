@@ -44,6 +44,7 @@ export default function Pre(props: React.ComponentProps<"pre">) {
           variant="outline"
           size="icon-lg"
           onClick={handleCopy}
+          aria-label={isCopied ? "Code copied" : "Copy code"}
           className="cursor-pointer"
         >
           <HugeiconsIcon

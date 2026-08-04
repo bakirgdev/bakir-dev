@@ -86,6 +86,7 @@ export default function LinksPage() {
               render={
                 <Link
                   href={link.href}
+                  aria-label={`${link.title} - ${link.description}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   prefetch={false}
