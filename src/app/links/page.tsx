@@ -59,7 +59,7 @@ export default function LinksPage() {
     },
     {
       title: "Buy Me a Coffee",
-      description: "buymeacoffee.com/gracicbakir",
+      description: "buymeacoffee.com/bakirgdev",
       href: process.env.NEXT_PUBLIC_BUYMEACOFFEE_URL,
       icon: Coffee01Icon,
     },
