@@ -1,6 +1,5 @@
 import {
   Coffee01Icon,
-  DocumentValidationIcon,
   GithubIcon,
   Linkedin02Icon,
   MailEdit01Icon,
@@ -22,7 +21,7 @@ import {
 
 export const metadata = pageMetadata(
   "Links | bakir.dev",
-  "Links to connect with me online. Explore my CV, GitHub, LinkedIn, and more. Feel free to reach out!",
+  "Links to connect with me online. Explore my GitHub, LinkedIn, and more. Feel free to reach out!",
   "/links",
 );
 
@@ -33,12 +32,6 @@ export default function LinksPage() {
       description: "Send me an email",
       href: `mailto:${process.env.NEXT_PUBLIC_EMAIL_ADDRESS}`,
       icon: MailEdit01Icon,
-    },
-    {
-      title: "Curriculum Vitae",
-      description: "bakir.dev/cv",
-      href: process.env.NEXT_PUBLIC_CV_URL,
-      icon: DocumentValidationIcon,
     },
     {
       title: "GitHub",

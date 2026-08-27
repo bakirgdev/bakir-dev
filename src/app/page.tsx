@@ -15,7 +15,6 @@ export default function IndexPage() {
     url: process.env.NEXT_PUBLIC_APP_URL,
     image: `${process.env.NEXT_PUBLIC_APP_URL}/static/images/headshot.jpeg`,
     sameAs: [
-      process.env.NEXT_PUBLIC_CV_URL,
       process.env.NEXT_PUBLIC_GITHUB_URL,
       process.env.NEXT_PUBLIC_LINKEDIN_URL,
       process.env.NEXT_PUBLIC_WHATSAPP_URL,
