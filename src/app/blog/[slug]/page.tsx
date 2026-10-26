@@ -3,7 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { BlogPosting, WithContext } from "schema-dts";
-import { JsonLD } from "@/features/JsonLD/JsonLD";
+import { author, JsonLD } from "@/features/JsonLD/JsonLD";
 import { formatDate, getPost, getPosts, type Post } from "@/lib/blog";
 import { rssAlternate, sharedOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
@@ -65,7 +65,7 @@ export default async function BlogPostPage({
     url,
     image: `${url}/opengraph-image`,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    author: { "@type": "Person", name: site.author, url: site.url },
+    author,
   };
 
   return (

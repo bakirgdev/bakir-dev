@@ -1,6 +1,6 @@
 import type { Blog, WithContext } from "schema-dts";
 import { BlogCard } from "@/features/BlogCard/BlogCard";
-import { JsonLD } from "@/features/JsonLD/JsonLD";
+import { author, JsonLD } from "@/features/JsonLD/JsonLD";
 import PageHeading from "@/features/PageHeading/PageHeading";
 import { getPosts } from "@/lib/blog";
 import { pageMetadata } from "@/lib/metadata";
@@ -24,6 +24,7 @@ export default async function BlogPage() {
     name: `Blog | ${site.name}`,
     url: `${site.url}/blog`,
     description,
+    author,
     blogPost: posts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,

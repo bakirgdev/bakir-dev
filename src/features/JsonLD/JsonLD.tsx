@@ -1,6 +1,15 @@
 /** biome-ignore-all lint/security/noDangerouslySetInnerHtml: JSON-LD must be inlined as a script; "<" is escaped to prevent breaking out of it */
 
-import type { Thing, WithContext } from "schema-dts";
+import type { Person, Thing, WithContext } from "schema-dts";
+import { site } from "@/lib/site";
+
+// One stable @id lets search engines and AI crawlers tie every page and post to the same person.
+export const author = {
+  "@type": "Person",
+  "@id": `${site.url}/#person`,
+  name: site.author,
+  url: site.url,
+} satisfies Person;
 
 type JsonLdProps<T extends Thing> = {
   code: WithContext<T>;

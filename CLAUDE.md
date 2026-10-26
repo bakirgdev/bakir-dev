@@ -42,7 +42,7 @@ export const metadata = {
 };
 ```
 
-`getPosts()` reads the directory and validates `metadata` with Zod, so a bad field fails the build. The slug, sitemap, RSS (`/blog/rss.xml`), OG image and prev/next links derive from it.
+`getPosts()` reads the directory and validates `metadata` with Zod, so a bad field fails the build. The slug, sitemap, RSS (`/blog/rss.xml`), `/llms.txt`, OG image and prev/next links derive from it.
 
 Code fences are highlighted at build time by `rehype-pretty-code` (Shiki). Headings get ids and anchor links from `rehype-slug` and `rehype-autolink-headings`.
 
@@ -54,6 +54,7 @@ Code fences are highlighted at build time by `rehype-pretty-code` (Shiki). Headi
 - `src/app/template.tsx` mounts the `tailwindcss-intersect` observer. It remounts on every navigation, which re-binds `intersect:*` classes on new pages.
 - Links styled as buttons use `buttonVariants()` on `<Link>`/`<a>`. Never nest a `<Button>` inside a link, and never use `render={<a />}` on Button (Base UI forces `role="button"`).
 - For lists of link `Item`s use `<ul>`/`<li>`, not `ItemGroup`: its `role="list"` does not allow `<a>` children (fails axe `aria-required-children`).
+- JSON-LD author references use the shared `author` object (stable `@id`) from `src/features/JsonLD/JsonLD.tsx`.
 - Dark mode only: `dark` is hardcoded on `<html>`.
 - Biome skips `public/`, `src/shadcn/` and `pnpm-lock.yaml` (see `biome.json`).
 

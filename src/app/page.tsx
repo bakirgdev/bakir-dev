@@ -3,7 +3,7 @@ import type { Person, WebSite, WithContext } from "schema-dts";
 import { CTA } from "@/features/IndexPage/CTA";
 import { FAQ } from "@/features/IndexPage/FAQ";
 import { Hero } from "@/features/IndexPage/Hero";
-import { JsonLD } from "@/features/JsonLD/JsonLD";
+import { author, JsonLD } from "@/features/JsonLD/JsonLD";
 import { rssAlternate, sharedOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
@@ -21,8 +21,7 @@ export const metadata: Metadata = {
 export default function IndexPage() {
   const personSchema: WithContext<Person> = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: site.author,
+    ...author,
     jobTitle: site.jobTitle,
     url: site.url,
     image: `${site.url}/static/images/headshot.jpeg`,
@@ -33,7 +32,7 @@ export default function IndexPage() {
     "@type": "WebSite",
     name: site.name,
     url: site.url,
-    author: { "@type": "Person", name: site.author, url: site.url },
+    author: { "@id": author["@id"] },
   };
 
   return (
