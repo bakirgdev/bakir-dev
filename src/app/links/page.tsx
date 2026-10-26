@@ -51,9 +51,9 @@ const links = [
     icon: WhatsappBusinessIcon,
   },
   {
-    title: "Company Website",
+    title: site.company.name,
     description: "sanjacklee.digital",
-    href: site.links.company,
+    href: site.company.url,
     icon: OfficeIcon,
   },
   {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { site } from "@/lib/site";
 import {
   Accordion,
   AccordionContent,
@@ -10,15 +11,20 @@ const faqs = [
   {
     question: "What do you do?",
     answer:
-      "I specialize in creating digital products for individuals and businesses. I enjoy the most working on digital transformations and AI integrations.",
+      "Software engineering and everything around it: web apps, infrastructure and AI integrations. I usually own the whole lifecycle, from idea to revenue.",
   },
   {
-    question: "Are you available to work?",
-    answer:
-      "I'm always open to discussing new projects and opportunities. Feel free to reach out!",
+    question: "Are you available for work?",
+    answer: (
+      <>
+        Yes. I take on projects through my company,{" "}
+        <a href={site.company.url}>{site.company.name}</a>, and I&apos;m open to
+        any kind of engagement with fellow professionals.
+      </>
+    ),
   },
   {
-    question: "How to get in touch?",
+    question: "How do I get in touch?",
     answer: (
       <>
         You can contact me via your preferred platform on the{" "}

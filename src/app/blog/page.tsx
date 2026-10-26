@@ -7,7 +7,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
 const description =
-  "My takes on various hot topics. Read about interesting subjects and uncover my perspectives";
+  "Notes and guides from things I build and the problems I solve along the way.";
 
 export const metadata = pageMetadata({
   title: "Blog",
@@ -38,7 +38,10 @@ export default async function BlogPage() {
       <JsonLD code={blogSchema} />
 
       <section>
-        <PageHeading title="Blog" subtitle="My takes on various hot topics" />
+        <PageHeading
+          title="Blog"
+          subtitle="Notes and guides from things I build"
+        />
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post, i) => (

@@ -21,7 +21,7 @@ Verify a change with `pnpm lint`, then `pnpm build`. There are no tests. `./node
 - `src/app/`: routes. Every page is statically prerendered; keep it that way (no request-time APIs).
 - `src/content/blog/*.mdx`: blog posts.
 - `src/features/<Feature>/`: one directory per UI section. MDX element overrides are in `src/features/MDX/`, wired in `src/mdx-components.tsx`.
-- `src/lib/site.ts`: site URL, author, email, social links. Single source for these values; there are no env vars.
+- `src/lib/site.ts`: site URL, author, headline, bio, email, company, social links. Single source for these values; there are no env vars. Headline and bio mirror the LinkedIn profile; the site names no employer other than SanJackLee Digital and lists no work history, education or projects.
 - `src/lib/blog.ts`: post discovery, validation, reading time.
 - `src/lib/metadata.ts`: `pageMetadata()` and shared Open Graph fields.
 - `src/shadcn/`: shadcn/ui components exactly as the CLI generates them. Never edit them: customize at the call site (`className`, `render`, `buttonVariants()`), and update with `pnpm dlx shadcn@latest add <name> --overwrite`. `cn` comes from the `cn` package (shadcn's replacement for clsx + tailwind-merge); `@/shadcn/lib/utils` re-exports it.

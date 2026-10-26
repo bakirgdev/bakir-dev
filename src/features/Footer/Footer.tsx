@@ -5,7 +5,7 @@ const footerLinks = [
   { title: "RSS", href: "/blog/rss.xml" },
   { title: "Source", href: site.repository },
   { title: "Licenses", href: `${site.repository}/tree/main/LICENSES` },
-  { title: "Company", href: site.links.company },
+  { title: site.company.name, href: site.company.url },
 ];
 
 export default function Footer() {

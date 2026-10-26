@@ -11,7 +11,7 @@ export async function GET() {
 
 > ${site.description}
 
-${site.author} is a ${site.jobTitle}. Contact channels are on the [links page](${site.url}/links).
+${site.author}: ${site.bio} Contact channels are on the [links page](${site.url}/links).
 
 ## Blog
 
@@ -21,7 +21,7 @@ ${posts.map((post) => `- [${post.title}](${site.url}/blog/${post.slug}): ${post.
 
 - [Home](${site.url}): Who I am and what I do
 - [Links](${site.url}/links): GitHub, LinkedIn, company website and other contact channels
-- [Credentials](${site.url}/credentials): Certifications and badges with verification links
+- [Credentials](${site.url}/credentials): Certifications, badges and completed courses
 
 ## Optional
 

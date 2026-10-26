@@ -19,6 +19,8 @@ interface CredentialCardProps {
 }
 
 export function CredentialCard({ credential, style }: CredentialCardProps) {
+  const action = credential.course ? "View course" : "Verify";
+
   return (
     <Card className="h-full pt-0 motion-preset-slide-down-sm" style={style}>
       <div className="relative aspect-4/3 w-full bg-muted/50">
@@ -48,10 +50,10 @@ export function CredentialCard({ credential, style }: CredentialCardProps) {
           href={credential.verify}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Verify ${credential.name}`}
+          aria-label={`${action}: ${credential.name}`}
           className={cn(buttonVariants({ variant: "outline" }), "w-full")}
         >
-          Verify
+          {action}
           <HugeiconsIcon icon={ArrowUpRight01Icon} data-icon="inline-end" />
         </a>
       </CardFooter>

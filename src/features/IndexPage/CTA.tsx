@@ -8,7 +8,7 @@ export function CTA() {
   return (
     <section className="rounded-3xl bg-primary p-8 text-center text-primary-foreground shadow-2xl intersect:motion-preset-blur-up-lg intersect-once md:p-16">
       <h2 className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-        Ready to Connect?
+        Let&apos;s talk
       </h2>
 
       <p className="mx-auto mb-8 max-w-prose text-pretty text-lg leading-tight text-primary-foreground/80 md:text-xl">

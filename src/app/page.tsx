@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import type { Person, WebSite, WithContext } from "schema-dts";
+import { About } from "@/features/IndexPage/About";
 import { CTA } from "@/features/IndexPage/CTA";
 import { FAQ } from "@/features/IndexPage/FAQ";
 import { Hero } from "@/features/IndexPage/Hero";
+import { LatestPosts } from "@/features/IndexPage/LatestPosts";
 import { author, JsonLD } from "@/features/JsonLD/JsonLD";
 import { rssAlternate, sharedOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
@@ -22,10 +24,15 @@ export default function IndexPage() {
   const personSchema: WithContext<Person> = {
     "@context": "https://schema.org",
     ...author,
-    jobTitle: site.jobTitle,
-    url: site.url,
+    description: site.bio,
     image: `${site.url}/static/images/headshot.jpeg`,
-    sameAs: Object.values(site.links),
+    knowsLanguage: [...site.languages],
+    worksFor: {
+      "@type": "Organization",
+      name: site.company.name,
+      url: site.company.url,
+    },
+    sameAs: [site.links.github, site.links.linkedin, site.links.buyMeACoffee],
   };
   const webSiteSchema: WithContext<WebSite> = {
     "@context": "https://schema.org",
@@ -42,6 +49,8 @@ export default function IndexPage() {
 
       <div className="mt-20 flex flex-col gap-25 md:gap-30">
         <Hero />
+        <About />
+        <LatestPosts />
         <FAQ />
         <CTA />
       </div>

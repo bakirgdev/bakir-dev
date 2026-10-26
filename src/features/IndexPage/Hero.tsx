@@ -17,14 +17,13 @@ export function Hero() {
 
       <div className="flex flex-col gap-5 text-center motion-preset-blur-left md:col-span-3 md:text-left">
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-          Bakir
+          {site.author}
         </h1>
         <p className="text-2xl font-semibold text-muted-foreground sm:text-3xl">
-          {site.jobTitle}
+          {site.headline}
         </p>
         <p className="mx-auto max-w-xl text-pretty text-muted-foreground md:mx-0 md:text-base/relaxed lg:text-lg/relaxed xl:text-xl/relaxed">
-          Building digital experiences with modern technologies. Clean code,
-          user-centric design, and scalable architecture.
+          {site.bio}
         </p>
       </div>
     </section>

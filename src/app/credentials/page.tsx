@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "Credentials",
   description:
-    "Check out where I validated my skills and experience. Explore my certifications, badges and other credentials",
+    "Certifications, badges and courses I have completed, with links to verify them.",
   path: "/credentials",
 });
 
