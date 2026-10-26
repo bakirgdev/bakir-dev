@@ -24,7 +24,7 @@ Verify a change with `pnpm lint`, then `pnpm build`. There are no tests. `./node
 - `src/lib/site.ts`: site URL, author, email, social links. Single source for these values; there are no env vars.
 - `src/lib/blog.ts`: post discovery, validation, reading time.
 - `src/lib/metadata.ts`: `pageMetadata()` and shared Open Graph fields.
-- `src/shadcn/`: vendored shadcn/ui components. Reinstall instead of editing: `pnpm dlx shadcn@latest add <name> --overwrite`.
+- `src/shadcn/`: shadcn/ui components exactly as the CLI generates them. Never edit them: customize at the call site (`className`, `render`, `buttonVariants()`), and update with `pnpm dlx shadcn@latest add <name> --overwrite`. `cn` comes from the `cn` package (shadcn's replacement for clsx + tailwind-merge); `@/shadcn/lib/utils` re-exports it.
 - `public/static/images/`: images, referenced by string path (`src="/static/images/..."`) with explicit `width`/`height`.
 
 Only the `@/*` -> `src/*` path alias exists.
@@ -54,9 +54,8 @@ Code fences are highlighted at build time by `rehype-pretty-code` (Shiki). Headi
 - `src/app/template.tsx` mounts the `tailwindcss-intersect` observer. It remounts on every navigation, which re-binds `intersect:*` classes on new pages.
 - Links styled as buttons use `buttonVariants()` on `<Link>`/`<a>`. Never nest a `<Button>` inside a link, and never use `render={<a />}` on Button (Base UI forces `role="button"`).
 - For lists of link `Item`s use `<ul>`/`<li>`, not `ItemGroup`: its `role="list"` does not allow `<a>` children (fails axe `aria-required-children`).
-- The shadcn CLI writes `import { cn } from "cn"` with this repo's custom `utils` alias. After adding components, rewrite it to `@/shadcn/lib/utils`.
 - Dark mode only: `dark` is hardcoded on `<html>`.
-- Biome skips everything under `public/` (override in `biome.json`).
+- Biome skips `public/`, `src/shadcn/` and `pnpm-lock.yaml` (see `biome.json`).
 
 ## Deployment
 

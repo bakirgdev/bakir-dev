@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!dist",
+      "!build",
+      "!pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -41,7 +48,7 @@
   },
   "overrides": [
     {
-      "includes": ["public/**"],
+      "includes": ["public/**", "src/shadcn/**"],
       "formatter": {
         "enabled": false
       },
