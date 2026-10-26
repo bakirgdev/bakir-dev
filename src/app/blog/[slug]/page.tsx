@@ -1,78 +1,133 @@
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import type { Metadata } from "next";
+import Link from "next/link";
 import type { BlogPosting, WithContext } from "schema-dts";
 import { JsonLD } from "@/features/JsonLD/JsonLD";
-import { blogs } from "@/lib/blogs";
-import { pageMetadata } from "@/lib/metadata";
+import { formatDate, getPost, getPosts, type Post } from "@/lib/blog";
+import { rssAlternate, sharedOpenGraph } from "@/lib/metadata";
+import { site } from "@/lib/site";
+import { cn } from "@/shadcn/lib/utils";
 
-interface BlogSlugPageProps {
-  params: Promise<{ slug: string }>;
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
-export const dynamicParams = false; // disable runtime generation, only allow pre-generated slug pages
-
-export function generateStaticParams() {
-  return blogs.map((blog) => ({ slug: blog.slug }));
-}
-
-export async function generateMetadata({ params }: BlogSlugPageProps) {
+export async function generateMetadata({
+  params,
+}: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const blog = blogs.find((blog) => blog.slug === slug);
+  const post = await getPost(slug);
+  const path = `/blog/${slug}`;
 
-  return pageMetadata(
-    `${blog?.title} | bakir.dev`,
-    blog?.description || "",
-    `/blog/${slug}`,
-  );
+  return {
+    title: post.title,
+    description: post.description,
+    alternates: { canonical: path, types: rssAlternate },
+    openGraph: {
+      ...sharedOpenGraph,
+      type: "article",
+      title: post.title,
+      description: post.description,
+      url: path,
+      publishedTime: post.published,
+      modifiedTime: post.updated ?? post.published,
+      authors: [site.url],
+    },
+  };
 }
 
-export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
+export default async function BlogPostPage({
+  params,
+}: PageProps<"/blog/[slug]">) {
   const { slug } = await params;
-  const blog = blogs.find((blog) => blog.slug === slug);
-  const { default: PostContents } = await import(`&/${slug}.mdx`);
+  const [post, posts, { default: PostContent }] = await Promise.all([
+    getPost(slug),
+    getPosts(),
+    import(`@/content/blog/${slug}.mdx`),
+  ]);
+
+  const index = posts.findIndex((p) => p.slug === slug);
+  const newer = posts[index - 1];
+  const older = posts[index + 1];
+  const url = `${site.url}/blog/${slug}`;
 
   const blogPostingSchema: WithContext<BlogPosting> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: blog?.title,
-    description: blog?.description,
-    datePublished: new Date(blog?.published ?? "").toISOString(),
-    dateModified: new Date(blog?.published ?? "").toISOString(),
-    url: `${process.env.NEXT_PUBLIC_APP_URL}/blog/${slug}`,
-    image: `${process.env.NEXT_PUBLIC_APP_URL}/og.jpg`,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${process.env.NEXT_PUBLIC_APP_URL}/blog/${slug}`,
-    },
-    author: {
-      "@type": "Person",
-      name: "Bakir Gracić",
-      url: process.env.NEXT_PUBLIC_APP_URL,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "bakir.dev",
-      logo: {
-        "@type": "ImageObject",
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/static/images/headshot.jpeg`,
-      },
-    },
+    headline: post.title,
+    description: post.description,
+    datePublished: post.published,
+    dateModified: post.updated ?? post.published,
+    url,
+    image: `${url}/opengraph-image`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    author: { "@type": "Person", name: site.author, url: site.url },
   };
 
   return (
     <>
       <JsonLD code={blogPostingSchema} />
 
-      <article className="w-full max-w-prose mx-auto wrap-break-word prose dark:prose-invert text-pretty motion-preset-blur-down-sm">
-        <p>
-          {blog?.published &&
-            new Date(blog.published).toLocaleDateString("en-US", {
-              dateStyle: "long",
-            })}
-        </p>
+      <article className="prose mx-auto w-full max-w-prose wrap-break-word text-pretty motion-preset-blur-down-sm dark:prose-invert prose-headings:scroll-mt-6 prose-headings:[&_a]:text-inherit prose-headings:[&_a]:no-underline prose-a:text-primary prose-a:underline-offset-4 prose-pre:bg-muted prose-code:before:content-none prose-code:after:content-none [&_:not(pre)>code]:rounded [&_:not(pre)>code]:bg-muted [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:font-normal">
+        <header className="not-prose mb-10">
+          <p className="text-sm text-muted-foreground">
+            <time dateTime={post.published}>{formatDate(post.published)}</time>
+            {post.updated && (
+              <>
+                {" · Updated "}
+                <time dateTime={post.updated}>{formatDate(post.updated)}</time>
+              </>
+            )}
+            {` · ${post.readingTime} min read`}
+          </p>
+          <h1 className="mt-3 text-balance text-4xl font-bold tracking-tight">
+            {post.title}
+          </h1>
+        </header>
 
-        <h1>{blog?.title}</h1>
-
-        <PostContents />
+        <PostContent />
       </article>
+
+      {(newer || older) && (
+        <nav
+          aria-label="More posts"
+          className="mx-auto mt-16 grid w-full max-w-prose gap-4 sm:grid-cols-2"
+        >
+          {older && <PostNavLink post={older} direction="previous" />}
+          {newer && <PostNavLink post={newer} direction="next" />}
+        </nav>
+      )}
     </>
+  );
+}
+
+function PostNavLink({
+  post,
+  direction,
+}: {
+  post: Post;
+  direction: "previous" | "next";
+}) {
+  const isNext = direction === "next";
+
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      className={cn(
+        "flex flex-col gap-1 rounded-xl p-4 ring-1 ring-foreground/10 transition-colors hover:bg-muted",
+        isNext && "items-end text-right sm:col-start-2",
+      )}
+    >
+      <span className="flex items-center gap-1 text-sm text-muted-foreground">
+        {!isNext && <HugeiconsIcon icon={ArrowLeft01Icon} size={16} />}
+        {isNext ? "Next" : "Previous"}
+        {isNext && <HugeiconsIcon icon={ArrowRight01Icon} size={16} />}
+      </span>
+      <span className="font-medium">{post.title}</span>
+    </Link>
   );
 }

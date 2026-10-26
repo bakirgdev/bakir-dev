@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: <> */
+/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: JSON-LD must be inlined as a script; "<" is escaped to prevent breaking out of it */
 
 import type { Thing, WithContext } from "schema-dts";
 

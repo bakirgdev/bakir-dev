@@ -1,24 +1,36 @@
-.git/
-LICENSES/
-.dockerignore
-.gitignore
-.mcp.json
-CLAUDE.md
-Dockerfile
-README.md
-
-
-/node_modules
-/.pnp
-.pnp.*
-.pnpm-debug.log*
-
-/.next/
-/out/
-/build
-
-.DS_Store
-*.pem
-
+# Dependencies and build output are produced inside the image
+node_modules/
+.pnpm-store/
+.next/
+out/
+build/
 *.tsbuildinfo
 next-env.d.ts
+
+# Env files never enter the build context (standalone output would ship them in the image)
+.env*
+
+# VCS, editor, OS
+.git/
+.gitignore
+.gitattributes
+.vscode/
+.idea/
+.DS_Store
+*.log
+*.pem
+
+# Docker
+Dockerfile*
+.dockerignore
+compose*.y*ml
+docker-compose*.y*ml
+
+# Docs, licenses, tooling not needed to build
+*.md
+LICENSES/
+.github/
+.claude/
+.playwright-mcp/
+biome.json
+components.json

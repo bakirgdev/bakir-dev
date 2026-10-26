@@ -2,17 +2,15 @@
 
 import { Menu09Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import Logo from "#/static/images/logo.png";
-import { navbarLinks } from "@/features/Navbar/lib";
+import { isActiveLink, navbarLinks } from "@/features/Navbar/lib";
 import { Button } from "@/shadcn/components/ui/button";
 import {
   Item,
   ItemActions,
   ItemContent,
-  ItemGroup,
   ItemTitle,
 } from "@/shadcn/components/ui/item";
 import {
@@ -25,47 +23,56 @@ import {
 
 export function MobileNavbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <div className="md:hidden flex items-center justify-between">
-      <Link href="/">
-        <Image src={Logo} alt="bakir.dev navbar logo" width={25} height={25} />
-      </Link>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon-lg"
+            aria-label="Open menu"
+            className="md:hidden"
+          >
+            <HugeiconsIcon icon={Menu09Icon} />
+          </Button>
+        }
+      />
+      <SheetContent side="right">
+        <SheetHeader>
+          <SheetTitle className="text-lg">Menu</SheetTitle>
+        </SheetHeader>
+        <nav aria-label="Main">
+          <ul className="flex flex-col gap-2 px-4">
+            {navbarLinks.map((link) => {
+              const isActive = isActiveLink(pathname, link.href);
 
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger
-          render={
-            <Button variant="ghost" size="icon-lg" className="h-9 w-9">
-              <HugeiconsIcon icon={Menu09Icon} size={24} />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          }
-        />
-        <SheetContent side="right" className="w-full sm:w-full">
-          <SheetHeader>
-            <SheetTitle className="text-lg font-medium">Menu</SheetTitle>
-          </SheetHeader>
-          <ItemGroup className="px-2.5 gap-2">
-            {navbarLinks.map((link) => (
-              <Item
-                key={`mobile-nav-link_${link.title}`}
-                className="motion-preset-slide-left"
-                variant="outline"
-                render={
-                  <Link href={link.href} onClick={() => setOpen(false)} />
-                }
-              >
-                <ItemContent>
-                  <ItemTitle>{link.title}</ItemTitle>
-                </ItemContent>
-                <ItemActions>
-                  <HugeiconsIcon icon={link.icon} />
-                </ItemActions>
-              </Item>
-            ))}
-          </ItemGroup>
-        </SheetContent>
-      </Sheet>
-    </div>
+              return (
+                <li key={link.href}>
+                  <Item
+                    variant={isActive ? "muted" : "outline"}
+                    render={
+                      <Link
+                        href={link.href}
+                        aria-current={isActive ? "page" : undefined}
+                        onClick={() => setOpen(false)}
+                      />
+                    }
+                  >
+                    <ItemContent>
+                      <ItemTitle>{link.title}</ItemTitle>
+                    </ItemContent>
+                    <ItemActions>
+                      <HugeiconsIcon icon={link.icon} />
+                    </ItemActions>
+                  </Item>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </SheetContent>
+    </Sheet>
   );
 }

@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
-import { defaultMetadataImage } from "@/lib/metadata";
+import { site } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "bakir.dev",
-    short_name: "bakir.dev",
+    name: site.name,
+    short_name: site.name,
+    description: site.description,
     start_url: "/",
-    scope: "/",
     display: "standalone",
     theme_color: "#85cc23",
     background_color: "#0a0a0a",
@@ -22,13 +22,6 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",
-      },
-    ],
-    screenshots: [
-      {
-        src: defaultMetadataImage,
-        sizes: "1200x630",
-        type: "image/png",
       },
     ],
   };

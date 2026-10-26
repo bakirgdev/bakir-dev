@@ -7,82 +7,82 @@ import {
   WhatsappBusinessIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import Link from "next/link";
 import PageHeading from "@/features/PageHeading/PageHeading";
 import { pageMetadata } from "@/lib/metadata";
+import { site } from "@/lib/site";
 import {
   Item,
   ItemContent,
   ItemDescription,
-  ItemGroup,
   ItemMedia,
   ItemTitle,
 } from "@/shadcn/components/ui/item";
 
-export const metadata = pageMetadata(
-  "Links | bakir.dev",
-  "Links to connect with me online. Explore my GitHub, LinkedIn, and more. Feel free to reach out!",
-  "/links",
-);
+export const metadata = pageMetadata({
+  title: "Links",
+  description:
+    "Links to connect with me online. Explore my GitHub, LinkedIn, and more. Feel free to reach out!",
+  path: "/links",
+});
+
+const links = [
+  {
+    title: "Email",
+    description: site.email,
+    href: `mailto:${site.email}`,
+    icon: MailEdit01Icon,
+  },
+  {
+    title: "GitHub",
+    description: "github.com/bakirgdev",
+    href: site.links.github,
+    icon: GithubIcon,
+  },
+  {
+    title: "LinkedIn",
+    description: "linkedin.com/in/bakirgdev",
+    href: site.links.linkedin,
+    icon: Linkedin02Icon,
+  },
+  {
+    title: "WhatsApp Business",
+    description: "Chat with me on WhatsApp",
+    href: site.links.whatsapp,
+    icon: WhatsappBusinessIcon,
+  },
+  {
+    title: "Company Website",
+    description: "sanjacklee.digital",
+    href: site.links.company,
+    icon: OfficeIcon,
+  },
+  {
+    title: "Buy Me a Coffee",
+    description: "buymeacoffee.com/bakirgdev",
+    href: site.links.buyMeACoffee,
+    icon: Coffee01Icon,
+  },
+];
 
 export default function LinksPage() {
-  const links = [
-    {
-      title: "Email",
-      description: "Send me an email",
-      href: `mailto:${process.env.NEXT_PUBLIC_EMAIL_ADDRESS}`,
-      icon: MailEdit01Icon,
-    },
-    {
-      title: "GitHub",
-      description: "github.com/bakirgdev",
-      href: process.env.NEXT_PUBLIC_GITHUB_URL,
-      icon: GithubIcon,
-    },
-    {
-      title: "LinkedIn",
-      description: "linkedin.com/in/bakirgdev",
-      href: process.env.NEXT_PUBLIC_LINKEDIN_URL,
-      icon: Linkedin02Icon,
-    },
-    {
-      title: "WhatsApp Business",
-      description: "wa.me/message/...",
-      href: process.env.NEXT_PUBLIC_WHATSAPP_URL,
-      icon: WhatsappBusinessIcon,
-    },
-    {
-      title: "Company Website",
-      description: "sanjacklee.digital",
-      href: process.env.NEXT_PUBLIC_COMPANY_URL,
-      icon: OfficeIcon,
-    },
-    {
-      title: "Buy Me a Coffee",
-      description: "buymeacoffee.com/bakirgdev",
-      href: process.env.NEXT_PUBLIC_BUYMEACOFFEE_URL,
-      icon: Coffee01Icon,
-    },
-  ];
-
   return (
     <section>
       <PageHeading title="Links" subtitle="Connect with me across the web" />
 
-      <div className="max-w-md mx-auto">
-        <ItemGroup className="gap-2">
-          {links.map((link, i) => (
+      <ul className="mx-auto flex max-w-md flex-col gap-2">
+        {links.map((link, i) => (
+          <li key={link.title}>
             <Item
-              key={`link-item_${link.title}`}
+              variant="outline"
               className="motion-preset-slide-down"
               style={{ animationDelay: `${i * 50}ms` }}
               render={
-                <Link
+                <a
                   href={link.href}
-                  aria-label={`${link.title} - ${link.description}`}
-                  target="_blank"
+                  target={
+                    link.href.startsWith("mailto:") ? undefined : "_blank"
+                  }
                   rel="noopener noreferrer"
-                  prefetch={false}
                 />
               }
             >
@@ -94,9 +94,9 @@ export default function LinksPage() {
                 <ItemDescription>{link.description}</ItemDescription>
               </ItemContent>
             </Item>
-          ))}
-        </ItemGroup>
-      </div>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

@@ -9,7 +9,14 @@ export function BackToTop() {
     <Button
       variant="ghost"
       size="icon-lg"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={() =>
+        window.scrollTo({
+          top: 0,
+          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "instant"
+            : "smooth",
+        })
+      }
       aria-label="Back to top"
       className="intersect:motion-preset-blur-left intersect-once"
     >

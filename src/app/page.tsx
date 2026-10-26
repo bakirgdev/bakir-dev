@@ -1,37 +1,39 @@
+import type { Metadata } from "next";
 import type { Person, WebSite, WithContext } from "schema-dts";
 import { CTA } from "@/features/IndexPage/CTA";
 import { FAQ } from "@/features/IndexPage/FAQ";
 import { Hero } from "@/features/IndexPage/Hero";
 import { JsonLD } from "@/features/JsonLD/JsonLD";
+import { rssAlternate, sharedOpenGraph } from "@/lib/metadata";
+import { site } from "@/lib/site";
 
-// metadata applied from layout.tsx
+// The title falls back to the layout's default, which skips the "%s | bakir.dev" template.
+export const metadata: Metadata = {
+  alternates: { canonical: "/", types: rssAlternate },
+  openGraph: {
+    ...sharedOpenGraph,
+    title: site.name,
+    description: site.description,
+    url: "/",
+  },
+};
 
 export default function IndexPage() {
   const personSchema: WithContext<Person> = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Bakir Gracić",
-    jobTitle: "Web Solutions Architect",
-    url: process.env.NEXT_PUBLIC_APP_URL,
-    image: `${process.env.NEXT_PUBLIC_APP_URL}/static/images/headshot.jpeg`,
-    sameAs: [
-      process.env.NEXT_PUBLIC_GITHUB_URL,
-      process.env.NEXT_PUBLIC_LINKEDIN_URL,
-      process.env.NEXT_PUBLIC_WHATSAPP_URL,
-      process.env.NEXT_PUBLIC_COMPANY_URL,
-      process.env.NEXT_PUBLIC_BUYMEACOFFEE_URL,
-    ],
+    name: site.author,
+    jobTitle: site.jobTitle,
+    url: site.url,
+    image: `${site.url}/static/images/headshot.jpeg`,
+    sameAs: Object.values(site.links),
   };
   const webSiteSchema: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "bakir.dev",
-    url: process.env.NEXT_PUBLIC_APP_URL,
-    author: {
-      "@type": "Person",
-      name: "Bakir Gracić",
-      url: process.env.NEXT_PUBLIC_APP_URL,
-    },
+    name: site.name,
+    url: site.url,
+    author: { "@type": "Person", name: site.author, url: site.url },
   };
 
   return (
@@ -39,11 +41,11 @@ export default function IndexPage() {
       <JsonLD code={personSchema} />
       <JsonLD code={webSiteSchema} />
 
-      <section className="flex flex-col gap-25 md:gap-30 mt-20">
+      <div className="mt-20 flex flex-col gap-25 md:gap-30">
         <Hero />
         <FAQ />
         <CTA />
-      </section>
+      </div>
     </>
   );
 }

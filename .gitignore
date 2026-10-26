@@ -1,14 +1,29 @@
+# dependencies
 /node_modules
 /.pnp
 .pnp.*
-.pnpm-debug.log*
 
+# next.js
 /.next/
 /out/
+
+# production
 /build
 
+# misc
 .DS_Store
 *.pem
 
+# debug
+npm-debug.log*
+.pnpm-debug.log*
+
+# env files
+.env*
+
+# typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tooling output
+/.playwright-mcp/

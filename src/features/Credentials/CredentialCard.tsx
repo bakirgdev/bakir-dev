@@ -1,9 +1,8 @@
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
-import Link from "next/link";
 import type { Credential } from "@/features/Credentials/lib";
-import { Button } from "@/shadcn/components/ui/button";
+import { buttonVariants } from "@/shadcn/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shadcn/components/ui/card";
+import { cn } from "@/shadcn/lib/utils";
 
 interface CredentialCardProps {
   credential: Credential;
@@ -21,19 +21,19 @@ interface CredentialCardProps {
 export function CredentialCard({ credential, style }: CredentialCardProps) {
   return (
     <Card className="h-full pt-0 motion-preset-slide-down-sm" style={style}>
-      <div className="relative w-full bg-muted/50 aspect-4/3 overflow-hidden p-1">
+      <div className="relative aspect-4/3 w-full bg-muted/50">
         <Image
           src={credential.image}
-          alt={credential.name}
+          alt=""
           fill
           sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-contain"
+          className="object-contain p-1"
         />
       </div>
 
       <CardHeader>
-        <CardTitle className="line-clamp-2 text-xl" title={credential.name}>
-          {credential.name}
+        <CardTitle className="line-clamp-2 text-xl">
+          <h2>{credential.name}</h2>
         </CardTitle>
       </CardHeader>
 
@@ -43,26 +43,18 @@ export function CredentialCard({ credential, style }: CredentialCardProps) {
         </CardDescription>
       </CardContent>
 
-      {credential.verify && (
-        <CardFooter className="pt-3 mt-auto">
-          <Link
-            href={credential.verify || "#"}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="w-full font-bold"
-          >
-            <Button
-              variant="outline"
-              className="w-full"
-              disabled={!credential.verify}
-              aria-disabled={!credential.verify}
-            >
-              Verify
-              <HugeiconsIcon icon={ArrowRight01Icon} />
-            </Button>
-          </Link>
-        </CardFooter>
-      )}
+      <CardFooter>
+        <a
+          href={credential.verify}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Verify ${credential.name}`}
+          className={cn(buttonVariants({ variant: "outline" }), "w-full")}
+        >
+          Verify
+          <HugeiconsIcon icon={ArrowUpRight01Icon} data-icon="inline-end" />
+        </a>
+      </CardFooter>
     </Card>
   );
 }

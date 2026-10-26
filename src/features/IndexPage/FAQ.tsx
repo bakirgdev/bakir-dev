@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PageHeading from "@/features/PageHeading/PageHeading";
 import {
   Accordion,
   AccordionContent,
@@ -7,54 +6,55 @@ import {
   AccordionTrigger,
 } from "@/shadcn/components/ui/accordion";
 
+const faqs = [
+  {
+    question: "What do you do?",
+    answer:
+      "I specialize in creating digital products for individuals and businesses. I enjoy the most working on digital transformations and AI integrations.",
+  },
+  {
+    question: "Are you available to work?",
+    answer:
+      "I'm always open to discussing new projects and opportunities. Feel free to reach out!",
+  },
+  {
+    question: "How to get in touch?",
+    answer: (
+      <>
+        You can contact me via your preferred platform on the{" "}
+        <Link href="/links">links</Link> page.
+      </>
+    ),
+  },
+];
+
 export function FAQ() {
   return (
-    <section>
-      <PageHeading title="FAQ" />
+    <section aria-labelledby="faq-heading">
+      <h2
+        id="faq-heading"
+        className="mb-10 text-center text-4xl font-bold tracking-tight"
+      >
+        FAQ
+      </h2>
 
-      <div className="max-w-prose mx-auto">
-        <Accordion className="w-full">
-          <AccordionItem value="faq-1" className="motion-preset-expand">
-            <AccordionTrigger className="hover:no-underline cursor-pointer text-base">
-              What do you do?
-            </AccordionTrigger>
-            <AccordionContent className="text-base">
-              I specialize in creating digital products for individuals and
-              businesses. I enjoy the most working on digital transformations
-              and AI integrations
-            </AccordionContent>
-          </AccordionItem>
-
+      <Accordion className="mx-auto max-w-prose">
+        {faqs.map((faq, i) => (
           <AccordionItem
-            value="faq-2"
-            className="motion-preset-expand motion-delay-30"
+            key={faq.question}
+            value={faq.question}
+            className="motion-preset-expand"
+            style={{ animationDelay: `${i * 30}ms` }}
           >
-            <AccordionTrigger className="hover:no-underline cursor-pointer text-base">
-              Are you available to work?
+            <AccordionTrigger className="text-base hover:no-underline">
+              {faq.question}
             </AccordionTrigger>
-            <AccordionContent className="text-base">
-              I'm always open to discussing new projects and opportunities. Feel
-              free to reach out!
+            <AccordionContent className="text-base text-muted-foreground">
+              {faq.answer}
             </AccordionContent>
           </AccordionItem>
-
-          <AccordionItem
-            value="faq-3"
-            className="motion-preset-expand motion-delay-60"
-          >
-            <AccordionTrigger className="hover:no-underline cursor-pointer text-base">
-              How to get in touch?
-            </AccordionTrigger>
-            <AccordionContent className="text-base">
-              You can contact me via your preferred platform on the{" "}
-              <Link href="/links" className="underline">
-                links
-              </Link>{" "}
-              page
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
+        ))}
+      </Accordion>
     </section>
   );
 }

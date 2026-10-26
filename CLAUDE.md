@@ -1,57 +1,67 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Personal website and blog for [bakir.dev](https://bakir.dev). Public OSS repo: code MIT, content CC BY-NC 4.0 (`LICENSES/`).
+
+Stack: Next.js 16 App Router (Turbopack), React 19, TypeScript, Tailwind CSS 4, shadcn/ui (Base UI primitives, `base-vega` style, Hugeicons), `@next/mdx`, Biome, pnpm 12.
 
 ## Commands
 
 ```bash
-pnpm dev           # start dev server
-pnpm build         # production build
-pnpm lint          # biome check --write (formats + lints in place)
-pnpm tsc           # type-check only (wipes .next/ first, no emit)
-pnpm dev:clean     # wipe .next/ then dev
-pnpm build:clean   # wipe .next/ then build
+pnpm dev       # dev server
+pnpm build     # production build (also type-checks)
+pnpm start     # serve the production build
+pnpm lint      # biome check (lint + format check)
+pnpm format    # biome format --write
 ```
 
-Verification order: `pnpm lint` then `pnpm tsc` then `pnpm build`.
+Verify a change with `pnpm lint`, then `pnpm build`. There are no tests. `./node_modules/.bin/biome check --write` applies safe fixes.
 
-## Architecture
+## Layout
 
-Personal website + blog for [bakir.dev](https://bakir.dev). Next.js 16 App Router, TypeScript strict, Tailwind 4, shadcn/ui, MDX.
+- `src/app/`: routes. Every page is statically prerendered; keep it that way (no request-time APIs).
+- `src/content/blog/*.mdx`: blog posts.
+- `src/features/<Feature>/`: one directory per UI section. MDX element overrides are in `src/features/MDX/`, wired in `src/mdx-components.tsx`.
+- `src/lib/site.ts`: site URL, author, email, social links. Single source for these values; there are no env vars.
+- `src/lib/blog.ts`: post discovery, validation, reading time.
+- `src/lib/metadata.ts`: `pageMetadata()` and shared Open Graph fields.
+- `src/shadcn/`: vendored shadcn/ui components. Reinstall instead of editing: `pnpm dlx shadcn@latest add <name> --overwrite`.
+- `public/static/images/`: images, referenced by string path (`src="/static/images/..."`) with explicit `width`/`height`.
 
-### Path aliases
+Only the `@/*` -> `src/*` path alias exists.
 
-| Alias | Resolves to  |
-| ----- | ------------ |
-| `@/*` | `./src/*`    |
-| `#/*` | `./public/*` |
-| `&/*` | `./BLOG/*`   |
+## Blog posts
 
-### Blog system
+Adding a post = adding `src/content/blog/<slug>.mdx`. No registry. It must start with:
 
-Blog posts are `.mdx` files in `/BLOG/`. Every post must be registered in `src/lib/blogs.ts` (slug, title, description, published date). The `[slug]` page does a dynamic `import(`&/${slug}.mdx`)` and has `dynamicParams = false`, so only slugs listed in `blogs.ts` are valid. Adding a post = add the MDX file + add entry to `blogs.ts`.
+```mdx
+export const metadata = {
+  title: "...",
+  description: "...",
+  published: "YYYY-MM-DD",
+  // updated: "YYYY-MM-DD",
+};
+```
 
-### Features
+`getPosts()` reads the directory and validates `metadata` with Zod, so a bad field fails the build. The slug, sitemap, RSS (`/blog/rss.xml`), OG image and prev/next links derive from it.
 
-`src/features/` holds self-contained UI sections (each directory = one feature). MDX component overrides live in `src/features/MDX/` and are wired in `src/mdx-components.tsx`.
+Code fences are highlighted at build time by `rehype-pretty-code` (Shiki). Headings get ids and anchor links from `rehype-slug` and `rehype-autolink-headings`.
 
-### Env validation
+## Gotchas
 
-All `NEXT_PUBLIC_*` vars are validated at startup via Zod in `src/types/env.ts`. Any missing/malformed var will throw at runtime. The schema is the source of truth for which vars are required.
+- MDX plugins in `next.config.ts` are referenced by string name with JSON-serializable options. Turbopack cannot take plugin functions.
+- Segments that set `openGraph` replace the parent's object entirely. Build page metadata with `pageMetadata()`, or spread `sharedOpenGraph`.
+- Dynamic metadata image routes need their own `generateStaticParams` (see `src/app/blog/[slug]/opengraph-image.tsx`) or they render on demand.
+- `src/app/template.tsx` mounts the `tailwindcss-intersect` observer. It remounts on every navigation, which re-binds `intersect:*` classes on new pages.
+- Links styled as buttons use `buttonVariants()` on `<Link>`/`<a>`. Never nest a `<Button>` inside a link, and never use `render={<a />}` on Button (Base UI forces `role="button"`).
+- For lists of link `Item`s use `<ul>`/`<li>`, not `ItemGroup`: its `role="list"` does not allow `<a>` children (fails axe `aria-required-children`).
+- The shadcn CLI writes `import { cn } from "cn"` with this repo's custom `utils` alias. After adding components, rewrite it to `@/shadcn/lib/utils`.
+- Dark mode only: `dark` is hardcoded on `<html>`.
+- Biome skips everything under `public/` (override in `biome.json`).
 
-### Rendering notes
+## Deployment
 
-- Dark-mode only: `dark` class is hardcoded on `<html>`.
-- `tailwindcss-intersect` drives scroll-triggered animations via `motion-preset-*` classes.
-- JSON-LD structured data (schema.org) is injected per-page via `<JsonLD>`.
-- `next.config.ts` sets `output: "standalone"` for Docker (deployed via Dokploy on port 3002).
+Dokploy on a VPS builds the `Dockerfile` on every push to `main` and serves port 3002 behind Cloudflare. No env vars or build args are needed.
 
-### Misc
+The Dockerfile follows Next's `with-docker` example on `node:26-slim`. Node 25+ ships without corepack, so it installs the pnpm version from `packageManager` with npm. pnpm 12 fails with `ERR_PNPM_UNRECOGNIZED_WORKSPACE_SETTINGS` on unknown keys in `pnpm-workspace.yaml`.
 
-<!-- BEGIN:nextjs-agent-rules -->
- 
-# Next.js: ALWAYS read docs before coding
- 
-Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
- 
-<!-- END:nextjs-agent-rules -->
+@AGENTS.md

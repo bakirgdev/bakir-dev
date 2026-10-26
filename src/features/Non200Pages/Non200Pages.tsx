@@ -10,11 +10,9 @@ export default function Non200Pages({
   children,
 }: Non200PagesProps) {
   return (
-    <section className="flex-1 prose max-w-2xl mx-auto text-center text-foreground flex flex-col items-center justify-center p-4">
-      <span className="font-black text-7xl mb-6 motion-preset-blur-down-lg">
-        {code}
-      </span>
-      <h1 className="text-foreground motion-preset-blur-down-lg motion-delay-50">
+    <section className="mx-auto flex max-w-2xl flex-1 flex-col items-center justify-center gap-6 p-4 text-center">
+      <p className="text-7xl font-black motion-preset-blur-down-lg">{code}</p>
+      <h1 className="text-3xl font-bold tracking-tight motion-preset-blur-down-lg motion-delay-50">
         {title}
       </h1>
       <div className="motion-preset-blur-down-lg motion-delay-100">

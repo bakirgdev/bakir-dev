@@ -1,34 +1,36 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import Logo from "#/static/images/logo.png";
-import { navbarLinks } from "@/features/Navbar/lib";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/shadcn/components/ui/navigation-menu";
+import { usePathname } from "next/navigation";
+import { isActiveLink, navbarLinks } from "@/features/Navbar/lib";
+import { buttonVariants } from "@/shadcn/components/ui/button";
+import { cn } from "@/shadcn/lib/utils";
 
 export function DesktopNavbar() {
-  return (
-    <div className="hidden md:flex items-center gap-6">
-      <Link href="/">
-        <Image src={Logo} alt="bakir.dev navbar logo" width={25} height={25} />
-      </Link>
+  const pathname = usePathname();
 
-      <NavigationMenu>
-        <NavigationMenuList className="gap-4">
-          {navbarLinks.map((link) => (
-            <NavigationMenuItem key={`desktop-nav-link_${link.title}`}>
-              <NavigationMenuLink
-                render={<Link href={link.href}>{link.title}</Link>}
-              />
-            </NavigationMenuItem>
-          ))}
-        </NavigationMenuList>
-      </NavigationMenu>
-    </div>
+  return (
+    <nav aria-label="Main" className="hidden md:block">
+      <ul className="flex items-center gap-1">
+        {navbarLinks.map((link) => {
+          const isActive = isActiveLink(pathname, link.href);
+
+          return (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  buttonVariants({ variant: "ghost" }),
+                  isActive ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
+                {link.title}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }

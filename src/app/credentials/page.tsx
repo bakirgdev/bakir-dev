@@ -2,11 +2,12 @@ import { CredentialsView } from "@/features/Credentials/CredentialsView";
 import PageHeading from "@/features/PageHeading/PageHeading";
 import { pageMetadata } from "@/lib/metadata";
 
-export const metadata = pageMetadata(
-  "Credentials | bakir.dev",
-  "Check out where I validated my skills and experience. Explore my certifications, badges and other credentials",
-  "/credentials",
-);
+export const metadata = pageMetadata({
+  title: "Credentials",
+  description:
+    "Check out where I validated my skills and experience. Explore my certifications, badges and other credentials",
+  path: "/credentials",
+});
 
 export default function CredentialsPage() {
   return (

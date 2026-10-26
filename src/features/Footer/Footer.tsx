@@ -1,34 +1,30 @@
-import Link from "next/link";
 import { BackToTop } from "@/features/Footer/BackToTop";
-import { CopyrightYear } from "@/features/Footer/CopyrightYear";
+import { site } from "@/lib/site";
+
+const footerLinks = [
+  { title: "RSS", href: "/blog/rss.xml" },
+  { title: "Source", href: site.repository },
+  { title: "Licenses", href: `${site.repository}/tree/main/LICENSES` },
+  { title: "Company", href: site.links.company },
+];
 
 export default function Footer() {
   return (
-    <footer className="py-4 flex items-center justify-between text-sm text-muted-foreground">
-      <div className="flex items-center gap-3 md:gap-5 intersect:motion-preset-blur-right intersect-once">
+    <footer className="flex items-center justify-between gap-4 py-4 text-sm text-muted-foreground">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 intersect:motion-preset-blur-right intersect-once">
         <p>
-          © <CopyrightYear /> bakir.dev
+          © {new Date().getFullYear()} {site.name}
         </p>
 
-        <Link
-          href="https://github.com/bakirgdev/bakir-dev/blob/main/LICENSES/"
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-          className="hover:underline transition-all"
-          prefetch={false}
-        >
-          Licenses
-        </Link>
-
-        <Link
-          href="https://sanjacklee.digital"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline transition-all"
-          prefetch={false}
-        >
-          Company
-        </Link>
+        {footerLinks.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            className="underline-offset-4 transition-colors hover:text-foreground hover:underline"
+          >
+            {link.title}
+          </a>
+        ))}
       </div>
 
       <BackToTop />

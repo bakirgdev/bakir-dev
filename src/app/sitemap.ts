@@ -1,42 +1,18 @@
 import type { MetadataRoute } from "next";
-import { blogs } from "@/lib/blogs";
+import { getPosts } from "@/lib/blog";
+import { site } from "@/lib/site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getPosts();
+
   return [
-    // index
-    {
-      url: `${process.env.NEXT_PUBLIC_APP_URL}`,
-      changeFrequency: "yearly",
-      priority: 1,
-    },
-
-    // blog
-    {
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/blog`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-
-    // ...blogs
-    ...blogs.map((blog) => ({
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/blog/${blog.slug}`,
-      changeFrequency: "yearly" as const,
-      lastModified: new Date(blog.published).toISOString(),
-      priority: 0.8,
+    { url: site.url },
+    { url: `${site.url}/blog`, lastModified: posts[0]?.published },
+    ...posts.map((post) => ({
+      url: `${site.url}/blog/${post.slug}`,
+      lastModified: post.updated ?? post.published,
     })),
-
-    // links
-    {
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/links`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-
-    // credentials
-    {
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/credentials`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
+    { url: `${site.url}/links` },
+    { url: `${site.url}/credentials` },
   ];
 }
